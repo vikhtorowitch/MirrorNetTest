@@ -41,7 +41,6 @@ namespace MirrorNetTest.UI
                 NetworkClient.RegisterHandler<AltHelloMessage>(AltHelloMessageHandler);
             }
 
-            // после всех подписок обновляем набор разрешённых msgId для фильтра
             MessageProxyService.UpdateActiveSubscriptions();
 
             NetworkManager.singleton.StartClient();
@@ -53,7 +52,6 @@ namespace MirrorNetTest.UI
             NetworkClient.UnregisterHandler<HelloMessage>();
             NetworkClient.UnregisterHandler<AltHelloMessage>();
 
-            // после всех отписок обновляем набор разрешённых msgId для фильтра
             MessageProxyService.UpdateActiveSubscriptions();
 
             NetworkManager.singleton.StopClient();
