@@ -1,6 +1,7 @@
 using Mirror;
 using MirrorNetTest.Core.Messages;
 using MirrorNetTest.Services.MessageProxyService;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
@@ -16,6 +17,11 @@ namespace MirrorNetTest.UI
         private Button _connectBtn;
         [SerializeField]
         private Button _disconnectBtn;
+        
+        [SerializeField]
+        private TMP_Text _receivedLabel;
+
+
         private MessageProxyService _messageProxy;
 
         [Inject]
@@ -52,16 +58,29 @@ namespace MirrorNetTest.UI
 
             NetworkManager.singleton.StopClient();
             _messageProxy.Dispose();
-
+            SetMessage();
         }
 
         public void HelloMessageHandler(HelloMessage message)
         {
+            SetMessage($"[HelloMessage] {message.Message}");
             Debug.Log($"Received: {message.Message}");
         }
         public void AltHelloMessageHandler(AltHelloMessage message)
         {
+            SetMessage($"[AltHelloMessage] {message.Message}");
             Debug.Log($"Received ALT: {message.Message}");
+        }
+
+        private void SetMessage(string message = "")
+        {
+            if (string.IsNullOrEmpty(message))
+            {
+                _receivedLabel.text = "";
+                return;
+            }
+
+            _receivedLabel.text = $"Received message: {message}";
         }
 
         protected override void RegisterListeners()
